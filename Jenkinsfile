@@ -1,7 +1,7 @@
 pipeline {
 agent any
 
-```
+
 environment {
     DEPLOY_DIR = 'C:\\Users\\Krushnali\\Desktop\\finalyear\\devoops\\Exp_6'
 }
@@ -69,6 +69,5 @@ post {
         echo 'Pipeline failed! Check console logs.'
     }
 }
-```
 
 }
