@@ -3,7 +3,7 @@ agent any
 
 ```
 environment {
-    DEPLOY_DIR = 'C:\Users\Krushnali\Desktop\finalyear\devoops\Exp_6'
+    DEPLOY_DIR = 'C:\\Users\\Krushnali\\Desktop\\finalyear\\devoops\\Exp_6'
 }
 
 stages {
@@ -13,7 +13,7 @@ stages {
             echo 'Checking out source code from GitHub...'
 
             git branch: 'main',
-                url: 'https://github.com/krushh67/EXP_6_CI-CD'
+                url: 'https://github.com/krushh67/EXP_6_CI-CD.git'
         }
     }
 
@@ -30,7 +30,12 @@ stages {
             echo 'Testing HTML files...'
 
             bat '''
-            echo Validating index.html
+            if exist index.html (
+                echo index.html found successfully!
+            ) else (
+                echo ERROR: index.html not found!
+                exit /b 1
+            )
             '''
 
             echo 'Test completed successfully!'
@@ -42,9 +47,11 @@ stages {
             echo 'Deploying web application...'
 
             bat '''
-            xcopy /E /I /Y index.html "%DEPLOY_DIR%\\"
-            xcopy /E /I /Y style.css "%DEPLOY_DIR%\\"
-            xcopy /E /I /Y script.js "%DEPLOY_DIR%\\"
+            if not exist "%DEPLOY_DIR%" mkdir "%DEPLOY_DIR%"
+
+            copy /Y index.html "%DEPLOY_DIR%\\"
+            copy /Y style.css "%DEPLOY_DIR%\\"
+            copy /Y script.js "%DEPLOY_DIR%\\"
             '''
 
             echo 'Deployment completed successfully!'
